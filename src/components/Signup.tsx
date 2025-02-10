@@ -1,0 +1,138 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  accountType,
+  SignupFormValues,
+  signUpSchema,
+} from "../helpers/signUpSchema";
+import { Card } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useCreateCustomer } from "@/hooks/useCreateCustomer";
+import { useBankStore } from "@/store";
+import { useToast } from "@/hooks/use-toast";
+
+export const Signup = () => {
+  const { mutate: createCustomer } = useCreateCustomer();
+  const addUser = useBankStore((state) => state.addUser);
+  const { toast } = useToast();
+
+  const form = useForm<SignupFormValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: "",
+      name: "",
+      type: "INDIVIDUAL",
+    },
+  });
+
+  const onSubmit = (values: SignupFormValues) => {
+    createCustomer(values, {
+      onSuccess(data, variables) {
+        const { id } = data;
+        const { email } = variables;
+        addUser({
+          [email]: id,
+        });
+        toast({
+          duration: 3000,
+          variant: "success",
+          title: "Account Created!",
+          description: "You will be recieving an email to verify your account",
+        });
+      },
+      onError() {
+        toast({
+          duration: 2000,
+          variant: "error",
+          title: "Sadly, something went wrong!",
+          description: "Try again in a few minutes",
+        });
+      },
+    });
+  };
+
+  return (
+    <Card className="p-4 w-[400px]">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+        >
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Account Type</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an account type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {accountType.map((type) => {
+                      return (
+                        <SelectItem value={type} key={type}>
+                          {type}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit">Create Account</Button>
+        </form>
+      </Form>
+    </Card>
+  );
+};
