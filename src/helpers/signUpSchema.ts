@@ -20,9 +20,10 @@ export const signUpSchema = z.object({
   email: z
     .string()
     .email("Invalid email")
+    .optional()
     .refine(
       (email) => {
-        return !getStoredEmails().includes(email);
+        return !getStoredEmails().includes(email!);
       },
       { message: "Email already exists" }
     ),

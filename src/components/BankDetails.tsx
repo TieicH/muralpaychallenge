@@ -20,7 +20,7 @@ export const BankDetails = (account: BankDetailsProps) => {
       <DialogTrigger asChild>
         <Button variant="outline">Bank Details</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Account Details</DialogTitle>
           <DialogDescription>
@@ -30,41 +30,49 @@ export const BankDetails = (account: BankDetailsProps) => {
         <div className="grid grid-cols-[1fr_1px_1fr] gap-4 p-4">
           <div className="flex flex-col">
             <h3 className="mb-4 text-lg font-bold">Bank Account</h3>
-            <div>
-              <p>Beneficiary name</p>
-              <p>{account.account.depositAccount.bankBeneficiaryName}</p>
-              <Button variant="outline">Copy</Button>
-            </div>
-            <div>
-              <p>Beneficiary Address</p>
-              <p>{account.account.depositAccount.bankBeneficiaryAddress}</p>
-              <Button variant="outline">Copy</Button>
-            </div>
-            <div>
-              <p>Routing Number</p>
-              <p>{account.account.depositAccount.bankRoutingNumber}</p>
-              <Button variant="outline">Copy</Button>
-            </div>
-            <div>
-              <p>Account Number</p>
-              <p>{account.account.depositAccount.bankAccountNumber}</p>
-              <Button variant="outline">Copy</Button>
-            </div>
-            <div>
-              <p>Account Type</p>
-              <p>Cheking</p>
-              <Button variant="outline">Copy</Button>
-            </div>
-            <div>
-              <p>Bank Name</p>
-              <p>{account.account.depositAccount.bankName}</p>
-              <Button variant="outline">Copy</Button>
-            </div>
-            <div>
-              <p>Bank Address</p>
-              <p>{account.account.depositAccount.bankAddress}</p>
-              <Button variant="outline">Copy</Button>
-            </div>
+            {!account.account?.depositAccount?.bankName ? (
+              <p>No bank account created yet</p>
+            ) : (
+              <>
+                <div>
+                  <p>Beneficiary name</p>
+                  <p>{account.account?.depositAccount?.bankBeneficiaryName}</p>
+                  <Button variant="outline">Copy</Button>
+                </div>
+                <div>
+                  <p>Beneficiary Address</p>
+                  <p>
+                    {account.account?.depositAccount?.bankBeneficiaryAddress}
+                  </p>
+                  <Button variant="outline">Copy</Button>
+                </div>
+                <div>
+                  <p>Routing Number</p>
+                  <p>{account.account?.depositAccount?.bankRoutingNumber}</p>
+                  <Button variant="outline">Copy</Button>
+                </div>
+                <div>
+                  <p>Account Number</p>
+                  <p>{account.account?.depositAccount?.bankAccountNumber}</p>
+                  <Button variant="outline">Copy</Button>
+                </div>
+                <div>
+                  <p>Account Type</p>
+                  <p>Cheking</p>
+                  <Button variant="outline">Copy</Button>
+                </div>
+                <div>
+                  <p>Bank Name</p>
+                  <p>{account.account?.depositAccount?.bankName}</p>
+                  <Button variant="outline">Copy</Button>
+                </div>
+                <div>
+                  <p>Bank Address</p>
+                  <p>{account.account?.depositAccount?.bankAddress}</p>
+                  <Button variant="outline">Copy</Button>
+                </div>
+              </>
+            )}
           </div>
           <div className="bg-gray-300 w-[1px]"></div>
           <div className="flex flex-col">

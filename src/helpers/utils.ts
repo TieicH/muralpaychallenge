@@ -29,3 +29,11 @@ export const tranformDate = (date: string) => {
   };
   return dateObject.toLocaleDateString("en-US", options);
 };
+
+export const tranformCurrency = (amount: number | undefined) => {
+  if (!amount) return "$0.00";
+  return amount.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+};

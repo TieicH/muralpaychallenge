@@ -9,22 +9,13 @@ export const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center h-full border rounded-md p-4 border-red-200 w-full">
-      <h1>Welcome to the most amazing bank platform you'll ever see</h1>
-      <h2>Edison's Bank powered by Mural Pay</h2>
-      {/* <ul>
-        <li>
-          <a href="/account">Account</a>
-        </li>
-        <li>
-          <a href="/transfer">Transfer</a>
-        </li>
-        <li>
-          <a href="/">Home</a>
-        </li>
-      </ul> */}
+    <div className="flex flex-col items-center justify-center h-full rounded-md p-4 w-full mt-10">
+      <h1 className="text-4xl font-bold">
+        Welcome to the most amazing bank platform you'll ever see
+      </h1>
+      <h2 className="text-2xl font-bold">Edison's Bank powered by Mural Pay</h2>
 
-      <div className="">
+      <div className="mt-10">
         <Tabs defaultValue="signup" className="w-[500px]">
           <TabsList>
             <TabsTrigger value="signup">Sign up</TabsTrigger>

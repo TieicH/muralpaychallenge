@@ -19,7 +19,7 @@ type Currency =
 export interface Customer {
   name: string;
   type: CustomerType;
-  email: string;
+  email?: string;
 }
 
 interface Balance {

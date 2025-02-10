@@ -48,9 +48,11 @@ export const Signup = () => {
       onSuccess(data, variables) {
         const { id } = data;
         const { email } = variables;
-        addUser({
-          [email]: id,
-        });
+        if (email) {
+          addUser({
+            [email]: id,
+          });
+        }
         toast({
           duration: 3000,
           variant: "success",
