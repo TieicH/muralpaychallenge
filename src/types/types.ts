@@ -1,7 +1,7 @@
-type CustomerType = "INDIVIDUAL" | "BUSINESS";
+export type CustomerType = "INDIVIDUAL" | "BUSINESS";
 type AccountStatus = "INACTIVE" | "PENDING" | "COMPLETE" | "ERROR" | "REJECTED";
 type DepositAccountStatus = "ACTIVATED" | "DEACTIVATED";
-type BlockChainType = "ETHEREUM" | "POLYGON" | "BASE" | "CELO";
+export type BlockChainType = "ETHEREUM" | "POLYGON" | "BASE" | "CELO";
 type StageType = "TOS" | "AWAITING_KYC" | "COMPLETED" | "REJECTED";
 type Currency =
   | "USD"
@@ -47,7 +47,7 @@ interface DespositAccount {
   paymentRails: string[];
 }
 
-interface Account {
+export interface Account {
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -68,6 +68,10 @@ export interface CustomerResponse {
   customerType: CustomerType;
   name: string;
   status: AccountStatus;
-  accointId?: string;
+  accountId?: string;
   account?: Account;
+}
+
+export interface KYCLinkResponse {
+  kycLink: string;
 }

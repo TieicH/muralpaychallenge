@@ -6,6 +6,8 @@ const getStoredEmails = () => {
   return Object.keys(userEmails);
 };
 
+export const CustomerType = z.enum(["INDIVIDUAL", "BUSINESS"]);
+
 export const signUpSchema = z.object({
   name: z
     .string()
@@ -20,14 +22,11 @@ export const signUpSchema = z.object({
     .email("Invalid email")
     .refine(
       (email) => {
-        console.log({ email });
-        const aaa = getStoredEmails();
-        console.log({ aaa });
         return !getStoredEmails().includes(email);
       },
       { message: "Email already exists" }
     ),
-  type: z.enum(["INDIVIDUAL", "BUSINESS"]),
+  type: CustomerType,
 });
 
 export const accountType = ["INDIVIDUAL", "BUSINESS"];

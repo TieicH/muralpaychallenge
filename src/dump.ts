@@ -129,3 +129,19 @@
 // }
 
 // export default App;
+
+// {
+//     "id": "6c1ade49-a38e-4f22-a0c2-c326db8a35fe",
+//     "createdAt": "2025-02-10T00:53:14.603Z",
+//     "updatedAt": "2025-02-10T00:53:14.603Z",
+//     "name": "Edison",
+//     "customerType": "INDIVIDUAL",
+//     "status": "PENDING",
+//     "currenciesInfo": []
+// }
+
+// {
+//     "statusCode": 400,
+//     "message": "Offramp provider for USD is not approved. Cannot create transfer request.",
+//     "error": "Bad Request"
+// }

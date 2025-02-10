@@ -26,11 +26,13 @@ import {
 import { useCreateCustomer } from "@/hooks/useCreateCustomer";
 import { useBankStore } from "@/store";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router";
 
 export const Signup = () => {
   const { mutate: createCustomer } = useCreateCustomer();
   const addUser = useBankStore((state) => state.addUser);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signUpSchema),
@@ -55,13 +57,14 @@ export const Signup = () => {
           title: "Account Created!",
           description: "You will be recieving an email to verify your account",
         });
+        navigate(`/account/${id}`);
       },
-      onError() {
+      onError(error) {
         toast({
           duration: 2000,
           variant: "error",
           title: "Sadly, something went wrong!",
-          description: "Try again in a few minutes",
+          description: error.message,
         });
       },
     });
