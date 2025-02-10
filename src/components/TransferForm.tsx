@@ -8,16 +8,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
-import { Account } from "@/types/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  accountType,
-  SignupFormValues,
-  signUpSchema,
-} from "../helpers/signUpSchema";
+import { accountType } from "../helpers/signUpSchema";
 import { Card } from "@/components/ui/card";
 import {
   Form,
@@ -34,10 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCreateCustomer } from "@/hooks/useCreateCustomer";
-import { useBankStore } from "@/store";
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate, useParams } from "react-router";
 import {
   bankAccountType,
   blockchainType,
@@ -47,10 +37,24 @@ import {
 } from "@/helpers/transferRequestSchema";
 import { useCreateTransferRequest } from "@/hooks/useCreateTransferRequest";
 import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
-export const TransferForm = ({ accountId }: { accountId: string }) => {
+interface TransferFormProps {
+  accountId: string;
+  openDialog: boolean;
+  setOpenDialog: (open: boolean) => void;
+}
+
+export const TransferForm = ({
+  accountId,
+  openDialog,
+  setOpenDialog,
+}: TransferFormProps) => {
   const { mutate: createTransferRequest } = useCreateTransferRequest();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<TransferRequestFormValues>({
     resolver: zodResolver(RecipientInfoSchema),
@@ -65,6 +69,7 @@ export const TransferForm = ({ accountId }: { accountId: string }) => {
   const recipientTransferTypeValue = form.getValues("recipientTransferType");
 
   const onSubmit = (values: TransferRequestFormValues) => {
+    setLoading(true);
     const newValues = { ...values };
     if (values.recipientTransferType === "FIAT") {
       if (newValues?.bankDetails) {
@@ -78,18 +83,37 @@ export const TransferForm = ({ accountId }: { accountId: string }) => {
       },
       {
         onSuccess() {
+          setOpenDialog(false);
+          toast({
+            duration: 2000,
+            variant: "success",
+            title: "Transfer Request Created!",
+            description: "Great job!",
+          });
           queryClient.invalidateQueries({
             queryKey: ["allTransfers"],
           });
+          setLoading(false);
+        },
+        onError(error) {
+          toast({
+            duration: 2000,
+            variant: "error",
+            title: "Sadly, something went wrong!",
+            description: error.message,
+          });
+          setLoading(false);
         },
       }
     );
   };
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline">Transfer</Button>
+        <Button onClick={() => setOpenDialog(true)} variant="outline">
+          Transfer
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
@@ -456,8 +480,12 @@ export const TransferForm = ({ accountId }: { accountId: string }) => {
           </Card>
         </div>
         <DialogFooter>
-          <Button type="button" onClick={form.handleSubmit(onSubmit)}>
-            Create Transfer Request
+          <Button
+            type="button"
+            disabled={loading}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            {loading ? "Loading..." : "Create Transfer Request"}
           </Button>
         </DialogFooter>
       </DialogContent>

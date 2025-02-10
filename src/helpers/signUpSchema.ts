@@ -1,10 +1,4 @@
-import { useBankStore } from "@/store";
 import { z } from "zod";
-
-const getStoredEmails = () => {
-  const userEmails = useBankStore.getState().usersTable;
-  return Object.keys(userEmails);
-};
 
 export const CustomerType = z.enum(["INDIVIDUAL", "BUSINESS"]);
 
@@ -17,16 +11,6 @@ export const signUpSchema = z.object({
     .min(2, {
       message: "Name must be at least 2 characters",
     }),
-  email: z
-    .string()
-    .email("Invalid email")
-    .optional()
-    .refine(
-      (email) => {
-        return !getStoredEmails().includes(email!);
-      },
-      { message: "Email already exists" }
-    ),
   type: CustomerType,
 });
 

@@ -24,20 +24,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCreateCustomer } from "@/hooks/useCreateCustomer";
-import { useBankStore } from "@/store";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router";
 
 export const Signup = () => {
   const { mutate: createCustomer } = useCreateCustomer();
-  const addUser = useBankStore((state) => state.addUser);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      email: "",
       name: "",
       type: "INDIVIDUAL",
     },
@@ -45,14 +42,8 @@ export const Signup = () => {
 
   const onSubmit = (values: SignupFormValues) => {
     createCustomer(values, {
-      onSuccess(data, variables) {
+      onSuccess(data) {
         const { id } = data;
-        const { email } = variables;
-        if (email) {
-          addUser({
-            [email]: id,
-          });
-        }
         toast({
           duration: 3000,
           variant: "success",
@@ -73,7 +64,7 @@ export const Signup = () => {
   };
 
   return (
-    <Card className="p-4 w-[400px]">
+    <Card className="p-4 w-[300px] md:w-[400px]">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -87,19 +78,6 @@ export const Signup = () => {
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input type="text" placeholder="Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="Email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { CustomerType } from "./signUpSchema";
-import { Currency } from "lucide-react";
 
 const TransferType = z.enum(["BLOCKCHAIN", "FIAT"]);
 const BankAccountType = z.enum(["CHECKING", "SAVINGS"]);

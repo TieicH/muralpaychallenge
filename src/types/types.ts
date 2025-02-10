@@ -19,7 +19,6 @@ type Currency =
 export interface Customer {
   name: string;
   type: CustomerType;
-  email?: string;
 }
 
 interface Balance {
@@ -74,4 +73,10 @@ export interface CustomerResponse {
 
 export interface KYCLinkResponse {
   kycLink: string;
+}
+
+export interface AllCsutomersResponse {
+  total: number;
+  nextId: string;
+  results: CustomerResponse[];
 }

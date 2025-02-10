@@ -17,6 +17,7 @@ export const getTransferByStatus = (
 
 export const truncateWallet = (walletAddress: string | undefined) => {
   if (!walletAddress) return "";
+  if (walletAddress === "PENDING") return walletAddress;
   return `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`;
 };
 
