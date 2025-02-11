@@ -88,11 +88,13 @@ export const Account = () => {
             <div>
               <div className="flex gap-4">
                 <BankDetails account={customer.account!} />
-                <TransferForm
-                  openDialog={openTransferDialog}
-                  setOpenDialog={setOpenTransferDialog}
-                  accountId={customer.accountId!}
-                />
+                {!customer.accountId ? null : (
+                  <TransferForm
+                    openDialog={openTransferDialog}
+                    setOpenDialog={setOpenTransferDialog}
+                    accountId={customer.accountId}
+                  />
+                )}
               </div>
               <div className=" flex mt-2 justify-end">
                 <h3 className="text-2xl font-bold mr-2">Balance</h3>
@@ -118,8 +120,13 @@ export const Account = () => {
               </a>
             </p>
             <p className="text-xs text-gray-700">
-              NOTEL: If you already verified your account, please wait a few
-              minutes to complete the account creation and refresh the page.
+              NOTE: If you already verified your account, please wait a few
+              minutes to complete the account creation and refresh the page on
+              click on the refresh button.
+            </p>
+            <p className="text-xs text-gray-700">
+              NOTE: This is just a sandbox environment, you just need to wait a
+              few minutes the KYC is not necessary.
             </p>
           </Card>
         )}

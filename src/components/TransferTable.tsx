@@ -35,7 +35,7 @@ export const TransferTable = ({
       toast({
         duration: 1000,
         variant: "success",
-        title: "Transfers History Updated!",
+        title: "Account Refreshed!",
       });
     }, 1000);
   };
