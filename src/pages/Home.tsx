@@ -29,7 +29,7 @@ export const Home = () => {
         </Tabs>
       </div>
 
-      <div className="m-8 flex justify-center gap-4">
+      <div className="m-8 flex justify-center flex-col gap-4 md:flex-row">
         <Button variant="outline">
           <a
             className="flex items-center"
