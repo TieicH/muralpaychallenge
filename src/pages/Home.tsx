@@ -1,6 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Signup } from "@/components/Signup";
 import { Login } from "@/components/Login";
+import { Book, Github, ShieldCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Home = () => {
   return (
@@ -13,7 +15,7 @@ export const Home = () => {
       </h2>
 
       <div className="mt-10">
-        <Tabs defaultValue="signup" className="w-full md:w-[500px]">
+        <Tabs defaultValue="signup" className="w-full">
           <TabsList>
             <TabsTrigger value="signup">Sign up</TabsTrigger>
             <TabsTrigger value="login">Log in</TabsTrigger>
@@ -25,6 +27,32 @@ export const Home = () => {
             <Login />
           </TabsContent>
         </Tabs>
+      </div>
+
+      <div className="m-8 flex justify-center gap-4">
+        <Button variant="outline">
+          <a
+            className="flex items-center"
+            target="_blank"
+            href="https://github.com/TieicH/muralpaychallenge/blob/master/README.md"
+          >
+            <Book /> <span className="ml-2">Documentation</span>
+          </a>
+        </Button>
+        <Button variant="outline">
+          <a
+            className="flex items-center"
+            target="_blank"
+            href="https://github.com/TieicH/muralpaychallenge"
+          >
+            <Github /> <span className="ml-2">Github</span>
+          </a>
+        </Button>
+        <Button variant="outline">
+          <a className="flex items-center" target="_blank" href="/admin">
+            <ShieldCheck /> <span className="ml-2">Admin</span>
+          </a>
+        </Button>
       </div>
     </div>
   );
